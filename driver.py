@@ -172,7 +172,7 @@ class JKLMBot:
         match = self.helpbot_pattern.match(message.lower())
         if match:
             letters = match.group(1).lower()
-            print("Let the magic happen... ┘┌")
+            print("Let the magic happen...")
             self.help_user(letters)
 
     ''' [ORIGINAL PROCESS MESSAGE METHOD]
@@ -193,21 +193,22 @@ class JKLMBot:
 
 
 
-    def help_user(self, letters):
+    def help_user(self, letters, max_words=10):
         words_by_prefix = {}
         for word in self.wordlist:
             prefix = word[:len(letters)].lower()
             if prefix == letters:
                 words_by_prefix.setdefault(word[0].lower(), []).append(word.capitalize())
-            if len(words_by_prefix) >= 6:
+            if len(words_by_prefix) >= max_words:
                 break
 
         possible_words = [word for sublist in words_by_prefix.values() for word in sublist]
         if possible_words:
-            word_list_message = "\n".join(possible_words[:6])  # Limit to first 6 words
+            word_list_message = "\n".join(possible_words[:max_words])  # Limit to max_words
             self.send_message(f"Don't worry! Here are some words that might help:\n{word_list_message}")
         else:
             self.send_message("Sorry, I couldn't find any words matching that criteria.")
+
     '''
     def help_user(self, letters):
         words_by_prefix = {}

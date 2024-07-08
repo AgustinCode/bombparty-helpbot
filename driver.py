@@ -6,6 +6,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
+import os
+import logging
 import random
 
 class JKLMBot:
@@ -15,11 +17,15 @@ class JKLMBot:
     def __init__(self, room_code):
         self.room_code = room_code
         self.driver = None
-        try:
-            with open("wordlist.txt", "r") as file:
+        self.wordlist = []
+
+        wordlist_file = "wordlist.txt"
+        if os.path.exists(wordlist_file):
+            with open(wordlist_file, "r") as file:
                 self.wordlist = file.read().splitlines()
-        except FileNotFoundError:
-            print("No wordlist found")
+        else:
+            logging.warning(f"Wordlist file '{wordlist_file}' not found.")
+
 
     def setup_driver(self):
         service = Service(executable_path="chromedriver.exe")

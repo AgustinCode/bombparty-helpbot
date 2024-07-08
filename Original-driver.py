@@ -1,33 +1,26 @@
 import time
-import re
-import os
-import logging
-import random
-
-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import re
+import random
 
 class JKLMBot:
 
     wordlist = []
 
+
     def __init__(self, room_code):
         self.room_code = room_code
         self.driver = None
-        self.wordlist = []
-
-        wordlist_file = "wordlist.txt"
-        if os.path.exists(wordlist_file):
-            with open(wordlist_file, "r") as file:
+        try:
+            with open("wordlist.txt", "r") as file:
                 self.wordlist = file.read().splitlines()
-        else:
-            logging.warning(f"Wordlist file '{wordlist_file}' not found.")
-
+        except FileNotFoundError:
+            print("No wordlist found")
 
     def setup_driver(self):
         service = Service(executable_path="chromedriver.exe")
@@ -107,24 +100,29 @@ class JKLMBot:
         if message == '!helpbot':
             self.send_message("Helpbot guide - Type '!helpbot:[syllable]' so i can help you find words!")
 
-        match = self.helpbot_pattern.match(message.lower())
+        # Define a regex pattern to match '!helpbot:xx' or '!helpbot:xxx' where xx or xxx can be any letters
+        pattern = r'^!helpbot:([a-zA-Z]{2,3})$'
+        
+        # Check if the message matches the pattern
+        match = re.match(pattern, message.lower())
         if match:
-            letters = match.group(1).lower()
+            letters = match.group(1).lower()  # Extract the letters xx or xxx
+            print("Ayudando...")
             self.help_user(letters)
 
  
     def help_user(self, letters):
-        words_by_prefix = {}
+        random.shuffle(self.wordlist)
+        possible_words = []
         for word in self.wordlist:
-            prefix = word[:len(letters)].lower()
-            if prefix == letters:
-                words_by_prefix.setdefault(word[0].lower(), []).append(word.capitalize())
-            if len(words_by_prefix) >= 6:
+            if letters in word.lower():
+                possible_words.append(word.capitalize())
+            if len(possible_words) >= 6:
                 break
 
-        possible_words = [word for sublist in words_by_prefix.values() for word in sublist]
         if possible_words:
-            word_list_message = "\n".join(possible_words[:6])  # Limit to first 6 words
+            # Format wordlist
+            word_list_message = "\n".join(possible_words)
             self.send_message(f"Don't worry! Here are some words that might help:\n{word_list_message}")
         else:
             self.send_message("Sorry, I couldn't find any words matching that criteria.")

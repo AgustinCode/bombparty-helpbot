@@ -86,6 +86,41 @@ class JKLMBot:
         except Exception as e:
             print(f"ERROR presenting: {e}")
 
+    
+    def inject_mutation_observer(self):
+        script_template = """
+            var targetNode = document.querySelector('.log.darkScrollbar');
+            if (!targetNode) {
+                console.error("Target node not found. MutationObserver not injected.");
+                return;
+            }
+
+            var config = { childList: true, subtree: true };
+
+            var callback = function(mutationsList, observer) {
+                mutationsList.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(function(newNode) {
+                            var textNode = newNode.querySelector('.text');
+                            if (textNode) {
+                                console.log('NEW_MESSAGE: ' + textNode.innerText);
+                            }
+                        });
+                    }
+                });
+            };
+
+            var observer = new MutationObserver(callback);
+            observer.observe(targetNode, config);
+            console.log("MutationObserver injected successfully.");
+        """
+        self.driver.execute_script(script_template)
+        print("Injected MutationObserver script.")
+
+    
+    
+    ''' OLD MUTATION INJECTION METHOD
+    
     def inject_mutation_observer(self):
         script = """
             var targetNode = document.querySelector('.log.darkScrollbar');
@@ -113,6 +148,7 @@ class JKLMBot:
         """
         self.driver.execute_script(script)
         print("Injected MutationObserver script.")
+        '''
 
 
 

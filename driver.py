@@ -88,7 +88,7 @@ class JKLMBot:
 
     
     def inject_mutation_observer(self):
-        script_template = """
+        script = """
             var targetNode = document.querySelector('.log.darkScrollbar');
             if (!targetNode) {
                 console.error("Target node not found. MutationObserver not injected.");
@@ -114,8 +114,13 @@ class JKLMBot:
             observer.observe(targetNode, config);
             console.log("MutationObserver injected successfully.");
         """
-        self.driver.execute_script(script_template)
+
+    try:
+        self.driver.execute_script(script)
         print("Injected MutationObserver script.")
+    except Exception as e:
+        print(f"Error injecting MutationObserver script: {e}")
+
 
     
     
@@ -194,6 +199,7 @@ class JKLMBot:
 
 
     def help_user(self, letters, max_words=10):
+
         words_by_prefix = {}
         for word in self.wordlist:
             prefix = word[:len(letters)].lower()

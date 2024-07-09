@@ -115,11 +115,11 @@ class JKLMBot:
             console.log("MutationObserver injected successfully.");
         """
 
-    try:
-        self.driver.execute_script(script)
-        print("Injected MutationObserver script.")
-    except Exception as e:
-        print(f"Error injecting MutationObserver script: {e}")
+        try:
+            self.driver.execute_script(script)
+            print("Injected MutationObserver script.")
+        except Exception as e:
+            print(f"Error injecting MutationObserver script: {e}")
     
     
     ''' OLD MUTATION INJECTION METHOD

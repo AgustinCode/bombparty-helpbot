@@ -120,8 +120,6 @@ class JKLMBot:
         print("Injected MutationObserver script.")
     except Exception as e:
         print(f"Error injecting MutationObserver script: {e}")
-
-
     
     
     ''' OLD MUTATION INJECTION METHOD
@@ -199,7 +197,6 @@ class JKLMBot:
 
 
     def help_user(self, letters, max_words=10):
-
         words_by_prefix = {}
         for word in self.wordlist:
             prefix = word[:len(letters)].lower()

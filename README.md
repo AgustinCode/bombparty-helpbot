@@ -25,8 +25,8 @@ How to Use the BombParty Bot:
 
 
 Contributors:
-      AgustinCode: GitHub
-      justbrowsing37: GitHub
+Owner   -->  AgustinCode: GitHub
+Author  -->  justbrowsing37: GitHub
 
 
 Future Enhancements:

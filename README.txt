@@ -1,11 +1,9 @@
-
-BombParty Bot
 Welcome to the BombParty Bot project! This bot is designed to assist players in the online word game BombParty, operating directly within the game's chat interface.
 
-Project Overview
+Project Overview:   
 BombParty is a fast-paced word game where players compete to guess and type words based on given themes. This bot automates certain tasks to enhance gameplay and provide assistance to players.
 
-Features:
+Features:   
     Automatic Presentation: Upon joining a game room, the bot introduces itself and its capabilities to the players.
     Real-time Message Monitoring: Monitors the chat for commands and relevant messages using Selenium and MutationObserver.
     Word Assistance: Responds to specific commands from players to suggest words containing certain syllables.

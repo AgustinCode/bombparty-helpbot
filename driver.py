@@ -2,7 +2,6 @@ import time
 import re
 import os
 import logging
-import random
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
